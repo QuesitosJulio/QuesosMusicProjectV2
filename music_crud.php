@@ -3,7 +3,7 @@
 // Configurar DB
 $host = "mysql.railway.internal";
 $user = "root";
-$password = "tNSqWVXZdBqcSJQBFooeGaJrjfuuHKPp";
+$password = "tNSqWVXZdBqcSJQBfooeGaJrjfuuHKp";
 $dbname = "railway";
 $port = 3306;
 
