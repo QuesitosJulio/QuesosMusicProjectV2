@@ -1,11 +1,13 @@
 <?php
 
 // Configurar DB
-$host = "localhost";
+$host = "mysql.railway.internal";
 $user = "root";
-$password = "";
-$dbname = "music_db";
-$conn = new mysqli($host, $user, $password, $dbname);
+$password = "tNSqWVXZdBqcSJQBFooeGaJrjfuuHKPp";
+$dbname = "railway";
+$port = 3306;
+
+$conn = new mysqli($host, $user, $password, $dbname, $port);
 if ($conn->connect_error) {
     die("Error de conexión: " . $conn->connect_error);
 }
