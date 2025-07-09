@@ -4,7 +4,7 @@
 $host = "mysql.railway.internal";
 $user = "root";
 $password = "tNSqWVXZdBqcSJQBfOoeGaJrjfuuHPKp";
-$dbname = "railway";
+$dbname = "music_db";
 $port = 3306;
 
 $conn = new mysqli($host, $user, $password, $dbname, $port);
