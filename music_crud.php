@@ -65,11 +65,10 @@ if (isset($_GET['edit'])) {
             box-sizing: border-box;
         }
         body {
-            background-image: url('notas.png');
-            background-repeat: no-repeat;
-            background-position: center top;
-            background-size: contain;
-            background-color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f4f4f9;
+            color: #333;
         }
         h1 {
             color: #444;
