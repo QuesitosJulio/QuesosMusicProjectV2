@@ -68,7 +68,7 @@ if (isset($_GET['edit'])) {
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         th, td { padding: 8px; border: 1px solid #ccc; text-align: left; }
         th { background: #ddd; }
-        form { margin-top: 20px; background: #fff; padding: 15px; border: 1px solid #ccc; max-width: 600px; margin-left: auto; margin-right: auto; }
+        form { margin-top: 20px; background: #fff; padding: 15px; border: 1px solid #ccc; }
         input, select { width: 100%; padding: 8px; margin: 5px 0; }
         button { padding: 8px 12px; background: #4CAF50; color: white; border: none; cursor: pointer; }
         button:hover { background: #45a049; }
