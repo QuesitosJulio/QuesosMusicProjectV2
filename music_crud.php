@@ -6,9 +6,9 @@ if (isset($_POST['add'])) {
     $titulo = $_POST['titulo'];
     $artista = $_POST['artista'];
     $album = $_POST['album'] ?? null;
-    $duracion = $_POST['duracion'];
-    $video_url = $_POST['enlace'];
-    $conn->query("INSERT INTO canciones (titulo, artista, album, duracion, video_url) VALUES ('$titulo', '$artista', '$album', '$duracion', '$video_url')");
+    $duracion = !empty($_POST['duracion']) ? "'".$conn->real_escape_string($_POST['duracion'])."'" : "NULL";
+    $video_url = !empty($_POST['enlace']) ? "'".$conn->real_escape_string($_POST['enlace'])."'" : "NULL";
+    $conn->query("INSERT INTO canciones (titulo, artista, album, duracion, video_url) VALUES ('$titulo', '$artista', '$album', $duracion, $video_url)");
     header("Location: music_crud.php");
 }
 
@@ -17,10 +17,10 @@ if (isset($_POST['update'])) {
     $id = $_POST['id'];
     $titulo = $_POST['titulo'];
     $artista = $_POST['artista'];
-    $album = $_POST['album'];
-    $duracion = $_POST['duracion'];
-    $video_url = $_POST['enlace'];
-    $conn->query("UPDATE canciones SET titulo='$titulo', artista='$artista', album='$album', duracion='$duracion', video_url='$video_url' WHERE id=$id");
+    $album = $_POST['album'] ?? null;
+    $duracion = !empty($_POST['duracion']) ? "'".$conn->real_escape_string($_POST['duracion'])."'" : "NULL";
+    $video_url = !empty($_POST['enlace']) ? "'".$conn->real_escape_string($_POST['enlace'])."'" : "NULL";
+    $conn->query("UPDATE canciones SET titulo='$titulo', artista='$artista', album='$album', duracion=$duracion, video_url=$video_url WHERE id=$id");
     header("Location: music_crud.php");
 }
 
@@ -104,7 +104,7 @@ if (isset($_GET['edit'])) {
         <tr>
             <td><?= htmlspecialchars($row['titulo']) ?></td>
             <td><?= htmlspecialchars($row['album'] ?: '(Sin álbum)') ?></td>
-            <td><?= htmlspecialchars($row['duracion']) ?></td>
+            <td><?= htmlspecialchars($row['duracion'] ?: '(Sin duración)') ?></td>
             <td>
                 <a href="?edit=<?= $row['id'] ?>">Editar</a> | 
                 <a href="?delete=<?= $row['id'] ?>" onclick="return confirm('¿Eliminar esta canción?')" class="delete">Eliminar</a>
@@ -131,10 +131,10 @@ if (isset($_GET['edit'])) {
         <input type="text" name="artista" required value="<?= $edit_data['artista'] ?? '' ?>">
         <label>Álbum (opcional):</label>
         <input type="text" name="album" value="<?= $edit_data['album'] ?? '' ?>">
-        <label>Duración:</label>
-        <input type="text" name="duracion" required value="<?= $edit_data['duracion'] ?? '' ?>">
-        <label>Enlace:</label>
-        <input type="text" name="enlace" required value="<?= $edit_data['video_url'] ?? '' ?>">
+        <label>Duración (opcional):</label>
+        <input type="text" name="duracion" value="<?= $edit_data['duracion'] ?? '' ?>">
+        <label>Enlace (opcional):</label>
+        <input type="text" name="enlace" value="<?= $edit_data['video_url'] ?? '' ?>">
         <button type="submit" name="<?= $edit_data ? 'update' : 'add' ?>">
             <?= $edit_data ? "Actualizar Canción" : "Agregar Canción" ?>
         </button>
