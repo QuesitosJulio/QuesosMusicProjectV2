@@ -1,7 +1,7 @@
 <?php
 include 'config.php';
 
-// Agregar cancion
+// Agregar canción
 if (isset($_POST['add'])) {
     $titulo = $_POST['titulo'];
     $artista = $_POST['artista'];
@@ -12,7 +12,7 @@ if (isset($_POST['add'])) {
     header("Location: music_crud.php");
 }
 
-// Editar cancion
+// Editar canción
 if (isset($_POST['update'])) {
     $id = $_POST['id'];
     $titulo = $_POST['titulo'];
@@ -24,23 +24,24 @@ if (isset($_POST['update'])) {
     header("Location: music_crud.php");
 }
 
-// Eliminar cancion
+// Eliminar canción
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $conn->query("DELETE FROM canciones WHERE id=$id");
     header("Location: music_crud.php");
 }
 
-
-// Buscar artista/album/cancion
+// Buscar por filtro (canción, álbum o artista)
 $search = "";
-if (isset($_GET['search'])) {
-    $search = $_GET['search'];
-    $result = $conn->query("SELECT * FROM canciones 
-        WHERE titulo LIKE '%$search%' 
-        OR artista LIKE '%$search%' 
-        OR album LIKE '%$search%' 
-        ORDER BY artista, id");
+$search_by = "";
+if (isset($_GET['search']) && isset($_GET['search_by'])) {
+    $search = $conn->real_escape_string($_GET['search']);
+    $search_by = $conn->real_escape_string($_GET['search_by']);
+    if (in_array($search_by, ['titulo', 'album', 'artista'])) {
+        $result = $conn->query("SELECT * FROM canciones WHERE $search_by LIKE '%$search%' ORDER BY artista, id");
+    } else {
+        $result = $conn->query("SELECT * FROM canciones ORDER BY artista, id");
+    }
 } else {
     $result = $conn->query("SELECT * FROM canciones ORDER BY artista, id");
 }
@@ -71,14 +72,21 @@ if (isset($_GET['edit'])) {
         button:hover { background: #45a049; }
         .delete { background: #e74c3c; }
         .delete:hover { background: #c0392b; }
+        .video-btn { background: #3498db; color: white; padding: 5px 10px; border: none; cursor: pointer; text-decoration: none; }
+        .video-btn:hover { background: #2980b9; }
     </style>
 </head>
 <body>
     <h1>Gestor de Canciones</h1>
 
     <form method="get">
-        <label for="search">Buscar por canción, álbum o artista:</label>
-        <input type="text" name="search" id="search" value="<?= htmlspecialchars($search) ?>">
+        <label for="search_by">Buscar por:</label>
+        <select name="search_by" id="search_by" required>
+            <option value="titulo" <?= (isset($_GET['search_by']) && $_GET['search_by'] == 'titulo') ? 'selected' : '' ?>>Canción</option>
+            <option value="album" <?= (isset($_GET['search_by']) && $_GET['search_by'] == 'album') ? 'selected' : '' ?>>Álbum</option>
+            <option value="artista" <?= (isset($_GET['search_by']) && $_GET['search_by'] == 'artista') ? 'selected' : '' ?>>Artista</option>
+        </select>
+        <input type="text" name="search" id="search" value="<?= htmlspecialchars($search) ?>" placeholder="Escribe aquí..." required>
         <button type="submit">Buscar</button>
         <a href="music_crud.php">Mostrar todo</a>
     </form>
@@ -90,24 +98,23 @@ if (isset($_GET['edit'])) {
             if ($current_artist !== "") echo "</table>";
             $current_artist = $row['artista'];
             echo "<h2>" . htmlspecialchars($current_artist) . "</h2>";
-            echo "<table><tr><th>Título</th><th>Álbum</th><th>Duración</th><th>Acciones</th></tr>";
+            echo "<table><tr><th>Título</th><th>Álbum</th><th>Duración</th><th>Acciones</th><th>Video</th></tr>";
         }
     ?>
         <tr>
-            <td>
-                <?php if (!empty($row['video_url'])): ?>
-                    <a href="<?= $row['video_url'] ?>" target="_blank" style="text-decoration:none; color:#2c3e50;">
-                        <?= htmlspecialchars($row['titulo']) ?>
-                    </a>
-                <?php else: ?>
-                    <?= htmlspecialchars($row['titulo']) ?>
-                <?php endif; ?>
-            </td>
+            <td><?= htmlspecialchars($row['titulo']) ?></td>
             <td><?= htmlspecialchars($row['album'] ?: '(Sin álbum)') ?></td>
             <td><?= htmlspecialchars($row['duracion']) ?></td>
             <td>
                 <a href="?edit=<?= $row['id'] ?>">Editar</a> | 
                 <a href="?delete=<?= $row['id'] ?>" onclick="return confirm('¿Eliminar esta canción?')" class="delete">Eliminar</a>
+            </td>
+            <td>
+                <?php if (!empty($row['video_url'])): ?>
+                    <a href="<?= $row['video_url'] ?>" target="_blank" class="video-btn">Mirar Video</a>
+                <?php else: ?>
+                    <span style="color:#999;">Sin enlace</span>
+                <?php endif; ?>
             </td>
         </tr>
     <?php endwhile; ?>
