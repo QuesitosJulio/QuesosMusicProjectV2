@@ -67,7 +67,7 @@ if (isset($_GET['edit'])) {
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            background: #f4f4f9;
+            background: linear-gradient(to bottom right, #f4f4f9, #e0eafc);
             color: #333;
         }
         h1 {
