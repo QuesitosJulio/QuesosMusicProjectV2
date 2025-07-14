@@ -61,6 +61,8 @@ if (isset($_GET['edit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor de Música</title>
     <style>
+        * {
+            box-sizing: border-box; }
         body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f9; color: #333; }
         h1 { color: #444; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
