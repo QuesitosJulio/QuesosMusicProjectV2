@@ -1,16 +1,5 @@
 <?php
-
-// Configurar DB
-$host = "mysql.railway.internal";
-$user = "root";
-$password = "tNSqWVXZdBqcSJQBfOoeGaJrjfuuHPKp";
-$dbname = "music_db";
-$port = 3306;
-
-$conn = new mysqli($host, $user, $password, $dbname, $port);
-if ($conn->connect_error) {
-    die("Error de conexión: " . $conn->connect_error);
-}
+include 'config.php';
 
 // Agregar cancion
 if (isset($_POST['add'])) {
