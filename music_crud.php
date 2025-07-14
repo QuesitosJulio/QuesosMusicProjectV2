@@ -62,20 +62,77 @@ if (isset($_GET['edit'])) {
     <title>Gestor de Música</title>
     <style>
         * {
-            box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f9; color: #333; }
-        h1 { color: #444; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { padding: 8px; border: 1px solid #ccc; text-align: left; }
-        th { background: #ddd; }
-        form { margin-top: 20px; background: #fff; padding: 15px; border: 1px solid #ccc; }
-        input, select { width: 100%; padding: 8px; margin: 5px 0; }
-        button { padding: 8px 12px; background: #4CAF50; color: white; border: none; cursor: pointer; }
-        button:hover { background: #45a049; }
-        .delete { background: #e74c3c; }
-        .delete:hover { background: #c0392b; }
-        .video-btn { background: #3498db; color: white; padding: 5px 10px; border: none; cursor: pointer; text-decoration: none; }
-        .video-btn:hover { background: #2980b9; }
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            color: #444;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background: #ddd;
+        }
+        form {
+            margin-top: 20px;
+            background: #fff;
+            padding: 15px;
+            border: 1px solid #ccc;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+        }
+        button {
+            padding: 8px 12px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .delete {
+            background: #e74c3c;
+        }
+        .delete:hover {
+            background: #c0392b;
+        }
+        .video-btn {
+            background: #3498db;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .video-btn:hover {
+            background: #2980b9;
+        }
+
+        @media screen and (max-width: 600px) {
+            .video-btn {
+                display: block;
+                width: 100%;
+                margin-top: 5px;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
