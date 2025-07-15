@@ -63,74 +63,140 @@ if (isset($_GET['edit'])) {
     <style>
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
+
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
             background: #f4f4f9;
             color: #333;
         }
-        h1 {
-            color: #444;
+
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
+
         th, td {
-            padding: 8px;
-            border: 1px solid #ccc;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
             text-align: left;
+            font-size: 14px;
         }
+
         th {
-            background: #ddd;
+            background: #3498db;
+            color: white;
         }
+
         form {
             margin-top: 20px;
             background: #fff;
             padding: 15px;
-            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
+
         input, select {
             width: 100%;
-            padding: 8px;
-            margin: 5px 0;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
+
         button {
-            padding: 8px 12px;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #45a049;
-        }
-        .delete {
-            background: #e74c3c;
-        }
-        .delete:hover {
-            background: #c0392b;
-        }
-        .video-btn {
+            padding: 10px 15px;
             background: #3498db;
             color: white;
-            padding: 5px 10px;
             border: none;
+            border-radius: 4px;
             cursor: pointer;
-            text-decoration: none;
+            width: 100%;
+            font-size: 16px;
         }
-        .video-btn:hover {
+
+        button:hover {
             background: #2980b9;
         }
 
-        @media screen and (max-width: 600px) {
-            .video-btn {
+        .delete {
+            background: #e74c3c;
+        }
+
+        .delete:hover {
+            background: #c0392b;
+        }
+
+        .video-btn {
+            background: #2ecc71;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .video-btn:hover {
+            background: #27ae60;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media screen and (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
                 display: block;
                 width: 100%;
-                margin-top: 5px;
-                text-align: center;
+            }
+
+            thead tr {
+                display: none;
+            }
+
+            tr {
+                margin-bottom: 15px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 10px;
+                background: #fff;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            }
+
+            td {
+                display: flex;
+                justify-content: space-between;
+                font-size: 14px;
+                border: none;
+                border-bottom: 1px solid #eee;
+            }
+
+            td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: #333;
+            }
+
+            .video-btn {
+                width: 100%;
+                margin-top: 8px;
+            }
+
+            button {
+                width: 100%;
             }
         }
     </style>
@@ -147,7 +213,7 @@ if (isset($_GET['edit'])) {
         </select>
         <input type="text" name="search" id="search" value="<?= htmlspecialchars($search) ?>" placeholder="Escribe aquí..." required>
         <button type="submit">Buscar</button>
-        <a href="music_crud.php">Mostrar todo</a>
+        <a href="music_crud.php" style="display:inline-block; margin-top:5px;">Mostrar todo</a>
     </form>
 
     <?php
@@ -157,18 +223,18 @@ if (isset($_GET['edit'])) {
             if ($current_artist !== "") echo "</table>";
             $current_artist = $row['artista'];
             echo "<h2>" . htmlspecialchars($current_artist) . "</h2>";
-            echo "<table><tr><th>Título</th><th>Álbum</th><th>Duración</th><th>Acciones</th><th>Video</th></tr>";
+            echo "<table><thead><tr><th>Título</th><th>Álbum</th><th>Duración</th><th>Acciones</th><th>Video</th></tr></thead><tbody>";
         }
     ?>
         <tr>
-            <td><?= htmlspecialchars($row['titulo']) ?></td>
-            <td><?= htmlspecialchars($row['album'] ?: '(Sin álbum)') ?></td>
-            <td><?= htmlspecialchars($row['duracion'] ?: '(Sin duración)') ?></td>
-            <td>
+            <td data-label="Título"><?= htmlspecialchars($row['titulo']) ?></td>
+            <td data-label="Álbum"><?= htmlspecialchars($row['album'] ?: '(Sin álbum)') ?></td>
+            <td data-label="Duración"><?= htmlspecialchars($row['duracion'] ?: '(Sin duración)') ?></td>
+            <td data-label="Acciones">
                 <a href="?edit=<?= $row['id'] ?>">Editar</a> | 
                 <a href="?delete=<?= $row['id'] ?>" onclick="return confirm('¿Eliminar esta canción?')" class="delete">Eliminar</a>
             </td>
-            <td>
+            <td data-label="Video">
                 <?php if (!empty($row['video_url'])): ?>
                     <a href="<?= $row['video_url'] ?>" target="_blank" class="video-btn">Mirar Video</a>
                 <?php else: ?>
@@ -177,6 +243,7 @@ if (isset($_GET['edit'])) {
             </td>
         </tr>
     <?php endwhile; ?>
+    </tbody>
     </table>
 
     <h2><?= $edit_data ? "Editar Canción" : "Agregar Nueva Canción" ?></h2>
